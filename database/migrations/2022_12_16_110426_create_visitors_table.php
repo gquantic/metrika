@@ -15,6 +15,8 @@ return new class extends Migration
     {
         Schema::create('visitors', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('category_id')->constrained('categories');
+            $table->foreignId('project_id')->constrained('projects');
             $table->string('uuid')->nullable();
             $table->string('ip')->nullable();
             $table->timestamps();

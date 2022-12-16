@@ -15,6 +15,15 @@ class CategorySeeder extends Seeder
      */
     public function run()
     {
-        Category::query()->create();
+        Category::query()->insert([
+            [
+                'title' => 'Partner programs',
+                'slug' => 'partner-programs',
+            ],
+            [
+                'title' => 'SEO Sites',
+                'slug' => 'seo-sites',
+            ],
+        ]);
     }
 }
