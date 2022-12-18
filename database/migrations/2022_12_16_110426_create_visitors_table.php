@@ -17,8 +17,10 @@ return new class extends Migration
             $table->id();
             $table->foreignId('category_id')->constrained('categories');
             $table->foreignId('project_id')->constrained('projects');
+            $table->string('address')->nullable();
             $table->string('uuid')->nullable();
             $table->string('ip')->nullable();
+            $table->json('details')->nullable();
             $table->timestamps();
         });
     }

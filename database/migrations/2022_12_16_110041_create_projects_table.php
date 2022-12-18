@@ -15,6 +15,7 @@ return new class extends Migration
     {
         Schema::create('projects', function (Blueprint $table) {
             $table->id();
+            $table->string('url');
             $table->string('slug')->unique();
             $table->string('title')->unique();
             $table->foreignId('category_id')->constrained('categories');

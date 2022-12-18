@@ -2,19 +2,39 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Visitor;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Http;
+use mysql_xdevapi\Exception;
 
 class VisitorController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
-        //
+        if (isset($_GET['project'])) {
+            $projectSlug = Project::query()->find($_GET['project'])->slug;
+            $visitors = Visitor::query()->where('project_id', $_GET['project'])->paginate();
+        } else $visitors = Visitor::all();
+
+        $data = [
+            'visitors' => $visitors,
+        ];
+
+        if (isset($projectSlug)) {
+            $data = [
+                'visitors' => $visitors,
+                'projectSlug' => $projectSlug
+            ];
+        }
+
+
+        return view('visitors.index', $data);
     }
 
     /**
@@ -35,7 +55,25 @@ class VisitorController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $project = Project::query()->where('id', $request->post('project'))->with('category')->first();
+        $ip = $request->getClientIp();
+
+        try {
+            $location = Http::get("api.sypexgeo.net/json/{$ip}")->body();
+            $location = json_decode($location, true);
+            $locationStr = "{$location['country']['name_ru']}, {$location['region']['name_ru']}, {$location['city']['name_ru']}";
+        } catch (\Exception $exception) {
+
+        }
+
+        Visitor::query()->create([
+            'category_id' => $project->category->id,
+            'project_id' => $project->id,
+            'address' => $locationStr ?? '',
+            'ip' => $request->getClientIp() ?? '',
+            'uuid' => $request->post('uuid') ?? '',
+            'details' => $request,
+        ]);
     }
 
     /**

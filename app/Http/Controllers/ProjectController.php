@@ -41,12 +41,11 @@ class ProjectController extends Controller
 
     /**
      * Display the specified resource.
-     *
-     * @param  \App\Models\Project  $project
      * @return \Illuminate\Contracts\Foundation\Application|\Illuminate\Contracts\View\Factory|\Illuminate\Contracts\View\View
      */
-    public function show(Project $project)
+    public function show($project)
     {
+        $project = Project::query()->where('slug', $project)->with('visitors')->first();
         return view('project.show', compact('project'));
     }
 

@@ -6,7 +6,7 @@
             <div class="col-xl-8">
                 <div class="card">
                     <div class="card-body">
-                        <h5 style="font-weight: bolder;">Visitors statistic</h5>
+                        <h5 style="font-weight: bolder;">График посещений</h5>
                         <div id="graph"></div>
                     </div>
                 </div>
@@ -14,30 +14,36 @@
             <div class="col-xl-4">
                 <div class="card">
                     <div class="card-body d-flex flex-column">
-                        <h5 style="font-weight: bolder;">About project</h5>
+                        <h5 style="font-weight: bolder;">Информация</h5>
                             <b class="mb-1">Visitors: {{ $project->visitors->count() }}</b>
                             <b class="mb-1">
-                                Site status:
+                                Статус сайта:
                                 @switch($project->status_code)
                                     @case(200)
-                                        <span class="text-success">Available</span>
+                                        <span class="text-success">Доступен</span>
                                         @break
 
                                     @default
-                                        <span class="text-danger">Not available</span>
+                                        <span class="text-danger">Не доступен</span>
                                         @break
                                 @endswitch
                             </b>
                     </div>
                 </div>
+                <a href="{{ route('visitor.index', ['project' => $project->id]) }}" class="border-0">
+                    <button class="btn btn-success w-100 mt-2 fw-bold mb-md-5">Перейти к посетителям</button>
+                </a>
             </div>
-            <div class="col-xl-8 mt-xl-3">
+            <div class="col-xl-8 mt-md-3 mt-lg-3">
                 <div class="card">
                     <div class="card-body">
-                        <h5 style="font-weight: bolder;">Site metatags</h2>
-                            <p class="mb-1">Title: <b id="meta_title">...</b></p>
-                            <p class="mb-1">Description: <b id="meta_desccription">...</b></p>
-                            <p class="mb-1">Keywords: <b id="meta_keywords">...</b></p>
+                        <div class="d-flex justify-content-between">
+                            <h5 style="font-weight: bolder;margin-bottom: 0;">Мета-теги</h5>
+                            <span class="text-warning">В разработке</span>
+                        </div>
+                        <p class="mb-1 mt-2">Title: <b id="meta_title">...</b></p>
+                        <p class="mb-1">Description: <b id="meta_desccription">...</b></p>
+                        <p class="mb-1">Keywords: <b id="meta_keywords">...</b></p>
                     </div>
                 </div>
             </div>

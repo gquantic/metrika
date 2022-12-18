@@ -12,27 +12,42 @@
 
             @foreach($category->projects as $project)
                 <div class="col-md-4 mr-3 mb-3">
-                    <div class="card" style="@if($project->status_code == 200) border-color: #007100; @endif">
+                    <div class="card" class="@if($project->status_code == 200) site-available @endif">
                         <div class="card-header d-flex justify-content-between">
-                            <span style="@if($project->status_code == 200) color: #007100; @endif">{{ $project->title }}</span>
-                            <a href="{{ route('project.show', $project->id) }}">Project</a>
+                            <span class="@if($project->status_code == 200) site-available-text @endif">
+                                {{ $project->title }}
+                                @if($project->status_code == 200)
+                                    <i class="fa-solid fa-check text-success"></i>
+                                @elseif ($project->status_code != 200 && $project->status_code != 404)
+                                    <i class="fa-solid fa-triangle-exclamation text-warning"></i>
+                                @else
+                                    <i class="fa-regular fa-circle-xmark text-danger"></i>
+                                @endif
+                            </span>
+                            <a href="{{ route('project.show', $project->slug) }}">Перейти в проект</a>
                         </div>
 
                         <div class="card-body d-flex flex-column">
-                            <b class="mb-1">Visitors: {{ $project->visitors->count() }}</b>
+                            <b class="mb-1">Посетителей всего: {{ $project->visitors->count() }}</b>
                             <b class="mb-1">
-                                Site status:
+                                Статус сайта:
                                 @switch($project->status_code)
                                     @case(200)
-                                        <span class="text-success">Available</span>
+                                        <span class="text-success">Работает</span>
                                         @break
 
                                     @default
-                                        <span class="text-danger">Not available</span>
+                                        <span class="text-danger">Ошибка</span>
                                         @break
                                 @endswitch
                             </b>
-                            <a href="" class="mt-1">To site</a>
+                            <div class="d-flex align-items-center justify-content-between mt-2">
+                                <a href="@if (substr($project, 0, 4) != 'http')//{{ $project->url }}@else{{ $project->url }}@endif"
+                                   class=""
+                                   target="_blank">
+                                    Перейти на сайт
+                                </a>
+                            </div>
                         </div>
                     </div>
                 </div>
