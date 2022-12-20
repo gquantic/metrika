@@ -18,12 +18,14 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::resources([
-    'visitors' => \App\Http\Controllers\VisitorController::class,
-]);
+Route::middleware('cors')->group(function () {
+    Route::resources([
+        'visitors' => \App\Http\Controllers\VisitorController::class,
+    ]);
+});
 
-Route::get('statuses/update', 'App\Http\Controllers\Api\ProjectController@updateStatuses');
+Route::get('statuses/update', 'App\Http\Controllers\Api\ProjectController@updateStatuses')->middleware('cors');
 
 Route::get('projects', function () {
     return json_encode(\App\Models\Project::all());
-});
+})->middleware('cors');
