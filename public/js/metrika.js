@@ -1,46 +1,33 @@
-class Metrika {
-    constructor(id) {
-        this.project = id;
-
-        if (this.checkIsAlreadyIsset()) {
-            this.send();
-            document.cookie = "user=John";
-        } else {
-            console.log('Already active');
-        }
-    }
-
-    send = () => {
-        let post = JSON.stringify({
-            project: this.project
-        });
-
-        let xhr = new XMLHttpRequest();
-
-        xhr.open('GET', 'https://cygreat.ru/api/visitors/', true);
-        xhr.setRequestHeader('Content-type', 'application/json; charset=UTF-8')
-        xhr.send(post);
-
-        xhr.onload = function () {
-            if(xhr.status === 200 || xhr.status === 201) {
-                console.log("Post successfully created!");
-                document.cookie = "a_metrika_already=true";
-            } else {
-                console.log('try again :(');
-                console.log(xhr.response);
-            }
-        }
-    }
-
-    checkIsAlreadyIsset = () => {
-        let isset = this.getCookie('a_metrika_already');
-        return isset === undefined;
-    }
-
-    getCookie = (name) => {
-        let matches = document.cookie.match(new RegExp(
-            "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-        ));
-        return matches ? decodeURIComponent(matches[1]) : undefined;
-    }
+function uuidv4() {
+    return ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c =>
+        (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)
+    );
 }
+
+function getUniqueId() {
+    let uniqueId = localStorage.getItem('uniqueId');
+
+    if(!uniqueId || uniqueId === null) {
+        uniqueId = uuidv4();
+        localStorage.setItem('uniqueId', uniqueId);
+    }
+
+    return uniqueId;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    fetch(`https://cygreat.ru/api/visitors`, {
+        method: 'POST',
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+            uuid: getUniqueId(),
+            project: window.location.host
+        })
+    }).then(res => {
+        console.trace(res);
+    }).catch(e => {
+        console.trace(e);
+    });
+});

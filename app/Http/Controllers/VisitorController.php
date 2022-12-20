@@ -55,7 +55,7 @@ class VisitorController extends Controller
      */
     public function store(Request $request)
     {
-        $project = Project::query()->where('id', $request->get('project'))->with('category')->first();
+        $project = Project::query()->where('url', $request->post('project'))->with('category')->first();
         $ip = $request->ip();
 
         try {
@@ -72,7 +72,7 @@ class VisitorController extends Controller
             'address' => $locationStr ?? '',
             'ip' => $request->getClientIp() ?? '',
             'uuid' => $request->post('uuid') ?? '',
-            'details' => $request,
+            'details' => $request->headers,
         ]);
     }
 
