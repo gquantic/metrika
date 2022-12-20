@@ -55,8 +55,8 @@ class VisitorController extends Controller
      */
     public function store(Request $request)
     {
-        $project = Project::query()->where('id', $request->post('project'))->with('category')->first();
-        $ip = $request->getClientIp();
+        $project = Project::query()->where('id', $request->get('project'))->with('category')->first();
+        $ip = $request->ip();
 
         try {
             $location = Http::get("api.sypexgeo.net/json/{$ip}")->body();
