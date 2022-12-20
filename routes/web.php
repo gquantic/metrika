@@ -25,3 +25,5 @@ Route::middleware('auth')->group(function () {
         'visitor' => \App\Http\Controllers\VisitorController::class,
     ]);
 });
+
+Route::view('test', 'test');

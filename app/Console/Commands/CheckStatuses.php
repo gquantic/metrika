@@ -31,12 +31,12 @@ class CheckStatuses extends Command
     public function handle()
     {
         foreach (Project::all() as $project) {
-            $status = Http::post($project->title)->status();
+            $status = Http::get($project->url)->status();
 
             $project->status_code = $status;
             $project->save();
 
-            echo "{$project->title} status: $status \n\n";
+            echo "{$project->url} status: $status \n\n";
         }
     }
 }

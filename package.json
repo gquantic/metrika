@@ -17,6 +17,8 @@
         "vue": "^3.2.37"
     },
     "dependencies": {
+        "jquery": "^3.6.2",
+        "js-html-parser": "^1.0.7",
         "request": "^2.88.2"
     }
 }
