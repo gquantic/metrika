@@ -17,7 +17,7 @@ class Metrika {
 
         let xhr = new XMLHttpRequest();
 
-        xhr.open('POST', 'http://127.0.0.1/api/visitors/', true);
+        xhr.open('POST', 'http://cygreat.ru/api/visitors/', true);
         xhr.setRequestHeader('Content-type', 'application/json; charset=UTF-8')
         xhr.send(post);
 
