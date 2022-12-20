@@ -24,8 +24,8 @@ Route::middleware('cors')->group(function () {
     ]);
 });
 
-Route::get('statuses/update', 'App\Http\Controllers\Api\ProjectController@updateStatuses')->middleware('cors');
+Route::get('statuses/update', 'App\Http\Controllers\Api\ProjectController@updateStatuses');
 
 Route::get('projects', function () {
     return json_encode(\App\Models\Project::all());
-})->middleware('cors');
+});
