@@ -42,7 +42,7 @@
                                 @endswitch
                             </b>
                             <div class="d-flex align-items-center justify-content-between mt-2">
-                                <a href="@if (substr($project, 0, 4) != 'http')//{{ $project->url }}@else{{ $project->url }}@endif"
+                                <a href="@if (substr($project, 0, 4) != 'http')http://{{ $project->url }}@else{{ $project->url }}@endif"
                                    class=""
                                    target="_blank">
                                     Перейти на сайт
